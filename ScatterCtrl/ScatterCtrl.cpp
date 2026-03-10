@@ -767,6 +767,8 @@ bool ScatterCtrl::Key(dword key, int )
 			DoShowEditDlg(0);
 		else if (key == K_CTRL_D)
 			DoShowData();
+		else if (key == K_SHIFT_P) // Provide access for private DoProcessing, needed to button action
+			DoProcessing();
 		else if (key == K_CTRL_C)
 			SaveToClipboard(false);
 		else if (key == K_CTRL_S)
