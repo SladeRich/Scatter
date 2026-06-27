@@ -114,6 +114,7 @@ void CtrlScroll::Scroll(const Point& p) {
 		pane->HSizePos();
 	if (vsizepos)
 		pane->VSizePos();
+	Refresh();
 	WhenScrolled();
 }
 
