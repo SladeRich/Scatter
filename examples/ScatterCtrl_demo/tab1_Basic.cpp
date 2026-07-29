@@ -15,7 +15,7 @@ void Tab1_Basic::Init()
 	scatter.AddSeries(s1).Legend("Series 1").Opacity(0.3).Fill().MarkBorderColor();
 	
 	s2y[0] = 22; s2y[1] = 33; s2y[2] = 27; s2y[3] = 29; s2y[4] = 24;
-	scatter.AddSeries(s2y, 5, 10, 10).Legend("Series 2").Id(SERIE2).PlotStyle<LineSeriesPlot>()
+	scatter.AddSeries(s2y, 5, 10., 10.).Legend("Series 2").Id(SERIE2).PlotStyle<LineSeriesPlot>()
 					.Dash("").MarkColor(Red()).Fill().Opacity(0.5).MarkBorderColor();
 	
 	s3y[0] = 18; s3y[1] = 29; s3y[2] = 23; s3y[3] = 25; s3y[4] = 20;

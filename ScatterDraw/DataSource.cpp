@@ -386,14 +386,6 @@ bool DataSource::SinEstim_FreqPhase(double &frequency, double &phase, double &fi
 	return true;
 }
 
-	
-double CArray::znFixed(int n, int64 id) {
-	if (n == 0)
-		return zData[id];
-	NEVER();
-	return Null;
-}
-
 Vector<Pointf> FFT(const VectorXd &_data, double tSample, bool frequency, int type, 
 		int window, int numOver) {
 	VectorXd data = clone(_data);

@@ -26,10 +26,6 @@ TOPIC("LinearEquation_en-us")
 #include "LinearEquation_en-us.tppi"
 END_TOPIC
 
-TOPIC("MultiDimMatrixIndex_en-us")
-#include "MultiDimMatrixIndex_en-us.tppi"
-END_TOPIC
-
 TOPIC("PolynomialEquation_en-us")
 #include "PolynomialEquation_en-us.tppi"
 END_TOPIC

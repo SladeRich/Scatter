@@ -1122,25 +1122,21 @@ bool ScatterCtrl::SaveToFileData(String fileName) {
 	}
 }
 
-ScatterCtrl &ScatterCtrl::AddSeries(ArrayCtrl &data, bool useCols, int idX, int idY, int , int beginData, int numData)
-{
+ScatterCtrl &ScatterCtrl::AddSeries(ArrayCtrl &data, bool useCols, int idX, int idY, int , int beginData, int numData) {
 	AddSeries<ArrayCtrlSource>(data, useCols, idX, idY, beginData, numData);
 	return *this;
 }
 
-void ScatterCtrl::InsertSeries(int id, ArrayCtrl &data, bool useCols, int idX, int idY, int , int beginData, int numData)
-{
+void ScatterCtrl::InsertSeries(int id, ArrayCtrl &data, bool useCols, int idX, int idY, int , int beginData, int numData) {
 	InsertSeries<ArrayCtrlSource>(id, data, useCols, idX, idY, beginData, numData);
 }
 
-ScatterCtrl &ScatterCtrl::AddSeries(GridCtrl &data, bool useCols, int idX, int idY, int , int beginData, int numData)
-{
+ScatterCtrl &ScatterCtrl::AddSeries(GridCtrl &data, bool useCols, int idX, int idY, int , int beginData, int numData) {
 	AddSeries<GridCtrlSource>(data, useCols, idX, idY, beginData, numData);
 	return *this;
 }
 
-void ScatterCtrl::InsertSeries(int id, GridCtrl &data, bool useCols, int idX, int idY, int , int beginData, int numData)
-{
+void ScatterCtrl::InsertSeries(int id, GridCtrl &data, bool useCols, int idX, int idY, int , int beginData, int numData) {
 	InsertSeries<GridCtrlSource>(id, data, useCols, idX, idY, beginData, numData);
 }
 
