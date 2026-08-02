@@ -599,22 +599,6 @@ ScatterDraw &ScatterDraw::_AddSeries(DataSource *data, bool owns) {
 	Refresh();
 	return *this;	
 }
-
-ScatterDraw &ScatterDraw::InsertSeries(int index, double *yData, int numData, double x0, double deltaX) {
-	return InsertSeries<CArray>(index, yData, numData, x0, deltaX);
-}
-	
-ScatterDraw &ScatterDraw::InsertSeries(int index, double *xData, double *yData, int numData) {
-	return InsertSeries<CArray>(index, xData, yData, numData);
-}
-
-ScatterDraw &ScatterDraw::InsertSeries(int index, Vector<double> &xData, Vector<double> &yData) {
-	return InsertSeries<VectorXY>(index, xData, yData);
-}
-
-ScatterDraw &ScatterDraw::InsertSeries(int index, Array<double> &xData, Array<double> &yData) {
-	return InsertSeries<ArrayXY>(index, xData, yData);
-}
 		
 ScatterDraw &ScatterDraw::InsertSeries(int index, Vector<Pointf> &points) {
 	return InsertSeries<VectorPointf>(index, points);
@@ -622,10 +606,6 @@ ScatterDraw &ScatterDraw::InsertSeries(int index, Vector<Pointf> &points) {
 
 ScatterDraw &ScatterDraw::InsertSeries(int index, Array<Pointf> &points) {
 	return InsertSeries<ArrayPointf>(index, points);
-}
-
-ScatterDraw &ScatterDraw::InsertSeries(int index, double (*function)(double))	 {
-	return InsertSeries<FuncSource>(index, function);
 }
 
 ScatterDraw &ScatterDraw::InsertSeries(int index, Pointf (*function)(double), int np, double from, double to)	 {

@@ -510,20 +510,26 @@ protected:
 	Array<EachDataStackedY> eachData;
 	bool is100;
 };
-	
+
+template <typename T>	
 class CArray : public DataSource {
 private:
-	const double *xData, *yData, *zData;
+	const T *xData, *yData, *zData;
 	int64 numData;
-	double x0, deltaX;
+	T x0, deltaX;
 	
 public:
-	CArray(const double *_yData, int _numData, double _x0, double _deltaX) : yData(_yData), numData(_numData), x0(_x0), deltaX(_deltaX) {xData = NULL;}
-	CArray(const double *_xData, const double *_yData, int _numData) : xData(_xData), yData(_yData), numData(_numData) {zData = nullptr; x0 = deltaX = 0;}
-	CArray(const double *_xData, const double *_yData, const double *_zData, int _numData) : xData(_xData), yData(_yData), zData(_zData), numData(_numData) {x0 = deltaX = 0;}
+	CArray(const T *_yData, int _numData, T _x0, T _deltaX) : yData(_yData), numData(_numData), x0(_x0), deltaX(_deltaX) {xData = NULL;}
+	CArray(const T *_xData, const T *_yData, int _numData) : xData(_xData), yData(_yData), numData(_numData) {zData = nullptr; x0 = deltaX = 0;}
+	CArray(const T *_xData, const T *_yData, const T *_zData, int _numData) : xData(_xData), yData(_yData), zData(_zData), numData(_numData) {x0 = deltaX = 0;}
 	inline double y(int64 id) override {return yData[ptrdiff_t(id)];}
 	inline double x(int64 id) override {return xData ? xData[ptrdiff_t(id)] : id*deltaX + x0;}
-	double znFixed(int n, int64 id) override ; 
+	double znFixed(int n, int64 id) override {
+		if (n == 0)
+			return zData[id];
+		NEVER();
+		return Null;
+	}
 	int GetznFixedCount()   const override {return 1;}
 	inline int64 GetCount() const override {return numData;}
 };
@@ -708,14 +714,15 @@ public:
 	int GetznFixedCount() const	override {return idsFixed.GetCount();}
 };
 
+template <typename T>
 class VectorXY : public DataSource {
 private:
-	const Vector<double> *xData = nullptr, *yData = nullptr;
+	const Vector<T> *xData = nullptr, *yData = nullptr;
 
 public:
 	VectorXY() {}
-	VectorXY(const Vector<double> &_xData, const Vector<double> &_yData) {Init(_xData,_yData);}
-	void Init(const Vector<double> &_xData, const Vector<double> &_yData) {
+	VectorXY(const Vector<T> &_xData, const Vector<T> &_yData) {Init(_xData,_yData);}
+	void Init(const Vector<T> &_xData, const Vector<T> &_yData) {
 		xData = &_xData;
 		yData = &_yData;
 	}
@@ -724,12 +731,13 @@ public:
 	inline int64 GetCount()	const override {return min(xData->GetCount(), yData->GetCount());}
 };
 
+template <typename T>
 class ArrayXY : public DataSource {
 private:
-	const Array<double> *xData, *yData;
+	const Array<T> *xData, *yData;
 
 public:
-	ArrayXY(const Array<double> &_xData, const Array<double> &_yData) : xData(&_xData), yData(&_yData) {}
+	ArrayXY(const Array<T> &_xData, const Array<T> &_yData) : xData(&_xData), yData(&_yData) {}
 	inline double x(int64 id) override 		{return (*xData)[int(id)];}
 	inline double y(int64 id) override 		{return (*yData)[int(id)];}
 	inline int64 GetCount() const override 	{return min(xData->GetCount(), yData->GetCount());}

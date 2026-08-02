@@ -476,15 +476,7 @@ public:
 	ScatterDraw &ZoomToFit(bool horizontal = true, bool vertical = false, double factor = 0) {
 		return ZoomToFit(horizontal, vertical, factor, factor);
 	}
-	//ScatterDraw &ZoomToFit(bool horizontal, double minx, double maxx, bool vertical, double minxy, double maxy, 
-	//				bool vertical2, double miny2, double maxy2, double factor);
-	//ScatterDraw &ZoomToFitSmart(bool horizontal, double minx, double maxx, bool vertical, double minxy, double maxy, 
-	//				bool vertical2, double miny2, double maxy2, double factor);
 	ScatterDraw &ZoomToFitNonLinked(bool horizontal, bool vertical, double factorH, double factorV);
-	//ScatterDraw &DoFitToData(bool horizontal, double minx, double maxx, bool vertical, double minxy, double maxy, 
-	//				bool vertical2, double miny2, double maxy2, double factor = 0);
-	//ScatterDraw &DoFitToDataSmart(bool horizontal, double minx, double maxx, bool vertical, double minxy, double maxy, 
-	//				bool vertical2, double miny2, double maxy2, double factor = 0);
 	
 	void Zoom(double scale, bool hor = true, bool ver = true); 
 	void ZoomNonLinked(double scale, bool hor, bool ver); 
@@ -530,22 +522,20 @@ public:
 	ScatterDraw &Graduation_FormatY(Formats fi);
 	ScatterDraw &Graduation_FormatY2(Formats fi);
 	
-	//ScatterDraw &SetPolar(bool polar = true)			{isPolar = polar; 	return *this;};
-	
-	ScatterDraw &AddSeries(double *yData, int numData, double x0, double deltaX)
-														{return AddSeries<CArray>(yData, numData, x0, deltaX);}
-	ScatterDraw &AddSeries(double *xData, double *yData, int numData)
-														{return AddSeries<CArray>(xData, yData, numData);}
+	template <class Y>
+	ScatterDraw &AddSeries(Y *yData, int numData, Y x0, Y deltaX) {return AddSeries<CArray<Y>>(yData, numData, x0, deltaX);}
+	template <class Y>
+	ScatterDraw &AddSeries(Y *xData, Y *yData, int numData)			 {return AddSeries<CArray<Y>>(xData, yData, numData);}
 	ScatterDraw &AddSeries(Eigen::VectorXd &yData, double x0, double deltaX)
 														{return AddSeries<EigenVector>(yData, x0, deltaX);}
 	ScatterDraw &AddSeries(Eigen::VectorXd &xData, Eigen::VectorXd &yData)
 														{return AddSeries<EigenVector>(xData, yData);}
-	ScatterDraw &AddSeries(Vector<double> &xData, Vector<double> &yData)
-														{return AddSeries<VectorXY>(xData, yData);}
-	ScatterDraw &AddSeries(Array<double> &xData, Array<double> &yData)
-														{return AddSeries<ArrayXY>(xData, yData);}		
-	ScatterDraw &AddSeries(Vector<Pointf> &points)		{return AddSeries<VectorPointf>(points);}
-	ScatterDraw &AddSeries(Array<Pointf> &points)		{return AddSeries<ArrayPointf>(points);}
+	template <class Y>
+	ScatterDraw &AddSeries(Vector<Y> &xData, Vector<Y> &yData) 	{return AddSeries<VectorXY<Y>>(xData, yData);}
+	template <class Y>
+	ScatterDraw &AddSeries(Array<Y> &xData, Array<Y> &yData)   	{return AddSeries<ArrayXY<Y>>(xData, yData);}		
+	ScatterDraw &AddSeries(Vector<Pointf> &points)			  	{return AddSeries<VectorPointf>(points);}
+	ScatterDraw &AddSeries(Array<Pointf> &points)				{return AddSeries<ArrayPointf>(points);}
 	template <class Y>
 	ScatterDraw &AddSeries(Vector<Vector <Y> > &data, int idx, int idy, 
 		Vector<int> &idsx, Vector<int> &idsy, Vector<int> &idsFixed, bool useCols = true, int beginData = 0, int numData = Null, double gainX = 1) {
@@ -607,14 +597,19 @@ public:
 	
 	DataSource &GetDataSource(int index) 	{ASSERT(IsValid(index));ASSERT(!series[index].IsDeleted());	return series[index].Data();}
 	bool IsDeletedDataSource(int index) 	{return series[index].IsDeleted();}	
-	
-	ScatterDraw &InsertSeries(int index, double *yData, int numData, double x0 = 0, double deltaX = 1);
-	ScatterDraw &InsertSeries(int index, double *xData, double *yData, int numData);
-	ScatterDraw &InsertSeries(int index, Vector<double> &xData, Vector<double> &yData);
-	ScatterDraw &InsertSeries(int index, Array<double> &xData, Array<double> &yData);
+
+	template <class Y>
+	ScatterDraw &InsertSeries(int index, Y *yData, int numData, Y x0 = 0, Y deltaX = 1) {return InsertSeries<CArray>(index, yData, numData, x0, deltaX);}
+	template <class Y>
+	ScatterDraw &InsertSeries(int index, Y *xData, Y *yData, int numData) 				{return InsertSeries<CArray>(index, xData, yData, numData);}
+	template <class Y>
+	ScatterDraw &InsertSeries(int index, Vector<Y> &xData, Vector<Y> &yData) {return InsertSeries<VectorXY<Y>>(index, xData, yData);}
+	template <class Y>
+	ScatterDraw &InsertSeries(int index, Array<Y> &xData, Array<Y> &yData)	 {return InsertSeries<ArrayXY<Y>>(index, xData, yData);}
 	ScatterDraw &InsertSeries(int index, Vector<Pointf> &points);
 	ScatterDraw &InsertSeries(int index, Array<Pointf> &points);
-	ScatterDraw &InsertSeries(int index, double (*function)(double));
+	template <class Y>
+	ScatterDraw &InsertSeries(int index, Y (*function)(Y)) 			{return InsertSeries<FuncSource>(index, function);}
 	ScatterDraw &InsertSeries(int index, Pointf (*function)(double), int np, double from = 0, double to = 1);
 	ScatterDraw &InsertSeries(int index, PlotExplicFunc &function);
 	ScatterDraw &InsertSeries(int index, PlotParamFunc function, int np, double from = 0, double to = 1);
